@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table
 public class IPPool {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
     @Id
     private long id;
@@ -24,7 +24,7 @@ public class IPPool {
     private long totalCapacity;
 
     @Column(name = "used_capacity")
-    private long userCapacity;
+    private long usedCapacity;
 
     @Column(name = "lower_bound")
     @IPValue

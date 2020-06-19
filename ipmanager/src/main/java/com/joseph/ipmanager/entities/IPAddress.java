@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,18 +15,28 @@ import javax.persistence.*;
 public class IPAddress {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column (name="pool_id")
+    @NotNull
     private long poolId;
 
-    @Column (name="value")
     @IPValue
+    @NotNull
     private String value;
 
-    /* TODO: change to enum & validate */
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private IPState resourceState;
+
+    public IPAddress(){};
+
+    public IPAddress(long poolId, String value, IPState resourceState){
+        this.poolId = poolId;
+        this.value = value;
+        this.resourceState = resourceState;
+    }
 
 
 }

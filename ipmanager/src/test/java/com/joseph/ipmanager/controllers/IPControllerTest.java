@@ -2,10 +2,7 @@ package com.joseph.ipmanager.controllers;
 
 import com.google.gson.Gson;
 import com.joseph.ipmanager.entities.IPAddress;
-import com.joseph.ipmanager.entities.IPPool;
-import com.joseph.ipmanager.exceptions.IPAddressExists;
-import com.joseph.ipmanager.exceptions.IPOutOfRangeException;
-import com.joseph.ipmanager.exceptions.ResourceNotFoundException;
+import com.joseph.ipmanager.pojos.IPRequest;
 import com.joseph.ipmanager.services.IPAddressService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,28 +28,67 @@ public class IPControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @MockBean
     private IPAddressService ipAddressService;
 
     @Test
     public void reserveIPShouldReturnSuccess() throws Exception {
-        IPAddress mockRequestIp = new IPAddress();
+        IPRequest mockRequestIp = new IPRequest();
         mockRequestIp.setPoolId(1);
-        mockRequestIp.setValue("127.0.0.1");
+        mockRequestIp.setIpAddress("127.0.0.1");
 
         IPAddress mockResponseIP = new IPAddress();
         mockResponseIP.setId(1);
 
         Gson gson = new Gson();
 
-        when(ipAddressService.reserveIp(any())).thenReturn(mockResponseIP);
+        when(ipAddressService.registerIp(any())).thenReturn(mockResponseIP);
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/ip/reserve")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(mockRequestIp)))
                 .andDo(print())
                 .andExpect(status().isCreated());
-
     }
+
+    @Test
+    public void blacklistIPShouldReturnSuccess() throws Exception {
+        IPRequest mockRequestIp = new IPRequest();
+        mockRequestIp.setPoolId(1);
+        mockRequestIp.setIpAddress("127.0.0.1");
+
+        IPAddress mockResponseIP = new IPAddress();
+        mockResponseIP.setId(1);
+
+        Gson gson = new Gson();
+
+        when(ipAddressService.registerIp(any())).thenReturn(mockResponseIP);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/ip/blacklist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(mockRequestIp)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void invalidIpAddressShouldReturnError() throws Exception {
+        IPRequest mockRequestIp = new IPRequest();
+        mockRequestIp.setPoolId(1);
+        mockRequestIp.setIpAddress("127.0.0.1.1");
+
+        IPAddress mockResponseIP = new IPAddress();
+        mockResponseIP.setId(1);
+
+        Gson gson = new Gson();
+
+        when(ipAddressService.registerIp(any())).thenReturn(mockResponseIP);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/ip/blacklist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(mockRequestIp)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
 }
