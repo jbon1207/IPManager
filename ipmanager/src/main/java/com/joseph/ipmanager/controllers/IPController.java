@@ -34,7 +34,7 @@ public class IPController {
 
         IPAddress ipAddress = new IPAddress();
         ipAddress.setResourceState(IPState.RESERVED);
-        ipAddress.setPoolId(ipAddress.getPoolId());
+        ipAddress.setPoolId(ipRequest.getPoolId());
         ipAddress.setValue(ipRequest.getIpAddress());
 
         ipAddressService.addIP(ipAddress);
