@@ -26,7 +26,6 @@ public class IPController {
     @RequestMapping(value = "/ip/generate", method = RequestMethod.POST)
     public ResponseEntity<?> generateIp(@RequestBody IPRequest ipRequest){
         return null;
-        //return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ip/reserve", method = RequestMethod.POST)
@@ -44,14 +43,12 @@ public class IPController {
     }
 
     @RequestMapping(value = "/ip/blacklist", method = RequestMethod.POST)
-    public ResponseEntity<?> blacklistIp(@RequestBody IPRequest ipRequest){
+    public ResponseEntity<?> blacklistIp(@Valid @RequestBody IPRequest ipRequest){
         return null;
-        //return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ip/free", method = RequestMethod.POST)
-    public ResponseEntity<?> freeIp(@RequestBody IPRequest ipRequest){
+    public ResponseEntity<?> freeIp(@Valid @RequestBody IPRequest ipRequest){
         return null;
-        //return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 }
