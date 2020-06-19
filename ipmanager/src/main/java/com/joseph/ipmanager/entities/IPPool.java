@@ -23,8 +23,8 @@ public class IPPool {
     @Column(name = "total_capacity")
     private long totalCapacity;
 
-    @Column(name = "user_capacity")
-    private long usedCapacity;
+    @Column(name = "used_capacity")
+    private long userCapacity;
 
     @Column(name = "lower_bound")
     @IPValue
