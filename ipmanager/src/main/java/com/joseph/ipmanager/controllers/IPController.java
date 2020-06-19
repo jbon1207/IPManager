@@ -3,6 +3,9 @@ package com.joseph.ipmanager.controllers;
 
 import com.joseph.ipmanager.entities.IPAddress;
 import com.joseph.ipmanager.enums.IPState;
+import com.joseph.ipmanager.exceptions.IPAddressExists;
+import com.joseph.ipmanager.exceptions.IPOutOfRangeException;
+import com.joseph.ipmanager.exceptions.ResourceNotFoundException;
 import com.joseph.ipmanager.pojos.IPRequest;
 import com.joseph.ipmanager.services.IPAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +32,14 @@ public class IPController {
     }
 
     @RequestMapping(value = "/ip/reserve", method = RequestMethod.POST)
-    public ResponseEntity<?> reserveIp(@Valid @RequestBody IPRequest ipRequest){
+    public ResponseEntity<?> reserveIp(@Valid @RequestBody IPRequest ipRequest) throws IPAddressExists, ResourceNotFoundException, IPOutOfRangeException {
 
         IPAddress ipAddress = new IPAddress();
         ipAddress.setResourceState(IPState.RESERVED);
         ipAddress.setPoolId(ipRequest.getPoolId());
         ipAddress.setValue(ipRequest.getIpAddress());
 
-        ipAddressService.addIP(ipAddress);
+        ipAddressService.reserveIp(ipAddress);
 
         return new ResponseEntity<>(ipAddress, HttpStatus.CREATED);
 
